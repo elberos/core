@@ -24,17 +24,25 @@ namespace Elberos\Core;
 class Struct
 {
 	
-	protected $__data = [];
-	
-	
 	
 	function __construct($arr = null)
 	{
 		if ($arr != null)
 		{
-			$this->__data = $arr;
+			foreach ($arr as $key => $value) { $this->assignValue($key, $value); }
 			$this->initData();
 		}
+	}
+	
+	
+	
+	/**
+	 * Assign to struct
+	 */
+	protected function assignValue($key, $value)
+	{
+		$pkey = "__".$key;
+		$this->$pkey = $value;
 	}
 	
 	
@@ -54,7 +62,8 @@ class Struct
 	 */
 	function __get($key)
 	{
-		return isset($this->__data[$key]) ? $this->__data[$key] : null;
+		$pkey = "__".$key;
+		return isset($this->$pkey) ? $this->$pkey : null;
 	}
 	
 	
@@ -74,10 +83,8 @@ class Struct
 	 */
 	function copy($arr)
 	{
-		$class = static::class;
-		$obj = new $class();
-		$obj->__data = $this->__data;
-		foreach ($arr as $key => $value) $obj->__data[$key] = $value;
+		$obj = clone $this;
+		foreach ($arr as $key => $value) { $obj->assignValue($key, $value); }
 		$obj->initData();
 		return $obj;
 	}
@@ -87,11 +94,14 @@ class Struct
 	/**
 	 * Create struct
 	 */
-	static function create($arr)
+	static function create($params = null)
 	{
 		$class = static::class;
 		$obj = new $class();
-		foreach ($arr as $key => $value) $obj->__data[$key] = $value;
+		if ($params != null)
+		{
+			foreach ($params as $key => $value) { $obj->assignValue($key, $value); }
+		}
 		$obj->initData();
 		return $obj;
 	}
