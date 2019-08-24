@@ -42,7 +42,7 @@ class Struct
 	protected function assignValue($key, $value)
 	{
 		$pkey = "__".$key;
-		$this->$pkey = $value;
+		if (property_exists($this, $pkey)) $this->$pkey = $value;
 	}
 	
 	
