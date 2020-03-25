@@ -3,7 +3,7 @@
 /*!
  *  Elberos Core
  *
- *  (c) Copyright 2019 "Ildar Bikmamatov" <support@elberos.org>
+ *  (c) Copyright 2019-2020 "Ildar Bikmamatov" <support@elberos.org>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ class Struct
 	/**
 	 * Create struct
 	 */
-	static function create($params = null)
+	static function newInstance($params = null)
 	{
 		$class = static::class;
 		$obj = new $class();
